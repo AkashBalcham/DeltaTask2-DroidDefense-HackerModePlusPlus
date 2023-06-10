@@ -232,6 +232,7 @@ class Player {
     }
 }
 
+//Boss Class
 class Boss {
     constructor() {
         this.x = canvas.width/2;
@@ -260,6 +261,7 @@ class Boss {
         this.count++;
     }
 }
+
 
 class BossBullet {
     constructor(x, y) {
@@ -1008,18 +1010,15 @@ function animate() {
             }
         }
 
-        for(let i=0; i<bullets.length; i++) {
-            for(let j=0; j<bossBullets.length; j++) {
-                if(collideCircle(bullets[i].x, bullets[i].y, bossBullets[j].x, bossBullets[j].y, bullets[i].radius, bossBullets[j].radius)) {
-                    bullets.splice(i, 1);
-                    bossBullets.splice(j, 1);
-                }
+        
+        
+        for(let j=0; j<bossBullets.length; j++) {
+            if(collideCircle(p1.x, p1.y, bossBullets[j].x, bossBullets[j].y, p1.radius, bossBullets[j].radius)) {
+                p1.lives -= 2;
+                bossBullets.splice(j, 1);
             }
         }
-
         
-
-        //buffer = false, init
         if(shootingEnemies.length === 0) {
             if(!buffer) {
                 gEn = setTimeout(generateShootingEnemy, 3000);
@@ -1064,6 +1063,7 @@ function animate() {
                 }
 
                 if(collideCircle(bullets[i].x, bullets[i].y, bosses[0].x, bosses[0].y, bullets[i].radius, bosses[0].radius)) {
+                    console.log("Boss Hit!");
                     bossLives--;
                     bullets.splice(i, 1);
                     score += 40;
@@ -1077,6 +1077,7 @@ function animate() {
                 if(bossLives <= 0) {
                     bossLives = maxBossLives;
                     bossesKilled++;
+                    bosses.splice(0, 1);
                     generateBoss();
                 }
 
@@ -1125,8 +1126,6 @@ function animate() {
 
         for(let i=0; i<powerUps.length; i++) {
             if(collideCircle(powerUps[i].x, powerUps[i].y, p1.x, p1.y, powerUps[i].radius, p1.radius)) {
-                //initPCount = powerUps[i].count;
-                //console.log(obt)
                 shieldActive = 1;
                 clearInterval(p);
                 for(let i=0; i<powerUps.length; i++) {
@@ -1137,18 +1136,10 @@ function animate() {
             }
         }
 
-        
-
-        
-
-
         for(let i=0; i<bossBulletsToRemove.length; i++) {
             bossBullets.splice(i, 1);
         }
         bossBulletsToRemove = [];
-        //bossTur.draw();
-
-
 
         homeTur.draw();
         home.update();
@@ -1156,8 +1147,6 @@ function animate() {
         turPlayer.draw();
         updatePlayerPosition();
         p1.update();
-        //turPlayer.draw();
-    //drawPauseButton();
     }
 }
 
@@ -1169,6 +1158,8 @@ function endGame() {
     for(let i=0; i<enemies.length; i++) {
         this.count = 0;
     }
+
+    //Leaderboard
     if(score1 === '') {
         document.querySelector('.first').innerHTML = `1.${score}`;
         localStorage.setItem('top1', `${score}`);
