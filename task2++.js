@@ -7,7 +7,9 @@ let score1 = localStorage.getItem('top1') || '';
 let score2 = localStorage.getItem('top2') || '';
 let score3 = localStorage.getItem('top3') || '';
 
-
+//Sound effects
+let powerUpSound = document.querySelector('.power-up');
+let botDeadSound = document.querySelector('.bothit');
 
 //Creating the necessary variables
 let t1 = 0, t2 = 0, t3 = 0, tRef;
