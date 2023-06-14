@@ -10,6 +10,7 @@ let score3 = localStorage.getItem('top3') || '';
 //Sound effects
 let powerUpSound = document.querySelector('.power-up');
 let botDeadSound = document.querySelector('.bothit');
+let playerDeadSound = document.querySelector('.playerhit');
 
 //Creating the necessary variables
 let t1 = 0, t2 = 0, t3 = 0, tRef;
@@ -1043,6 +1044,7 @@ function animate() {
         for(let i=0; i<enemyBullets.length; i++) {
             if(collideCircle(enemyBullets[i].x, enemyBullets[i].y, p1.x, p1.y, enemyBullets[i].radius, p1.radius)) {
                 p1.lives--;
+                playerDeadSound.play();
                 enemyBullets.splice(i, 1);
             }
         }
@@ -1053,6 +1055,7 @@ function animate() {
                 if(checkCollision(bullets[i], enemies[j])) {
                     score += 20;               
                     enemiesKilled++;
+                    botDeadSound.play();
                     if(score > 0 && score%100 === 0) {
                         if(lives < maxLives) {
                             ++lives;
@@ -1129,6 +1132,7 @@ function animate() {
         for(let i=0; i<powerUps.length; i++) {
             if(collideCircle(powerUps[i].x, powerUps[i].y, p1.x, p1.y, powerUps[i].radius, p1.radius)) {
                 shieldActive = 1;
+                powerUpSound.play();
                 clearInterval(p);
                 for(let i=0; i<powerUps.length; i++) {
                     powerUps.splice(0, 1);
